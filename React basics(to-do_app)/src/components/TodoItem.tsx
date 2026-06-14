@@ -1,7 +1,7 @@
-import React from "react";
+
 import Button from "./Button";
 
-const TodoItem = (props) => {
+const TodoItem = (props: any) => {
   console.log(props);
 
   function doneTodo() {

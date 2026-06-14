@@ -1,6 +1,6 @@
-import React from 'react'
 
-export const CenterComponent = (props) => {
+
+export const CenterComponent = (props: any) => {
   return (
     <div style={{ alignItems:"center",justifyContent: "center"}}>
         {props.children}

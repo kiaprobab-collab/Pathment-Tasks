@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import TodoItem from "../components/TodoItem";
 import { CenterComponent } from "../components/CenterComponent";
 
 // }
-const Dashboard = (props) => {
+const Dashboard = () => {
   console.log("Dashboard rendered");
   const [todo, setTodo] = useState([
     { id: 1, title: "Learn React", completed: false },
@@ -23,7 +23,7 @@ const Dashboard = (props) => {
     setInputValue("");
   }
 
-  function doneTodo(id) {
+  function doneTodo(id:number) {
     setTodo(
       todo.map((t) => {
         if (t.id === id) {
@@ -34,7 +34,7 @@ const Dashboard = (props) => {
     );
   }
 
-  function undoneTodo(id) {
+  function undoneTodo(id: number) {
     setTodo(
       todo.map((t) => {
         if (t.id === id) {
@@ -44,7 +44,7 @@ const Dashboard = (props) => {
       }),
     );
   }
-
+  
   return (
     <div
       style={{
