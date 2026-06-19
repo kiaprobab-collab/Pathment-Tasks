@@ -1,5 +1,13 @@
 
-const Buttons = ({ children, onClick,variant = "default" }) => {
+import type { ReactNode, MouseEventHandler } from "react";
+
+interface ButtonsProps {
+  children: ReactNode;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+  variant?: "default" | "outline" | "secondary";
+}
+
+const Buttons = ({ children, onClick, variant = "default" }: ButtonsProps) => {
   const styles = {
     default: {
       backgroundColor: "#18181B",

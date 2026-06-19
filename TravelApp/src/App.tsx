@@ -1,13 +1,12 @@
 
 import PlacesCard from './components/PlacesCard'
-import {places} from './assets/places.js'
+import { places } from './assets/places'
 import NavBar from './components/NavBar'
-import Landing from './components/Landing.js'
-import Footer from './components/Footer.js'
+import Landing from './components/Landing'
+import Footer from './components/Footer'
 
-function getPlacesCurrentId(id){
+function getPlacesCurrentId(id: number) {
     console.log(id)
-    // <PlacesItem />
 }
 
 const App = () => {
@@ -15,7 +14,7 @@ const App = () => {
     <NavBar />
     
    <Landing />
-   <h2 style={{color:"white", fontFamily:"Alata", textAlign:"center", marginTop:"10px", fontSize:"1.2rem", fontWeight:"normal"}}>Summer Offerings</h2>4
+   <h2 style={{color:"white", fontFamily:"Alata", textAlign:"center", marginTop:"10px", fontSize:"1.2rem", fontWeight:"normal"}}>Summer Offerings</h2>
    <hr style={{border:"none", height:"1px", backgroundColor:"white"}}/>
     <div style={{marginTop:"20px",display:"flex" ,flexWrap:"wrap", justifyContent:"center"}}>
     {
