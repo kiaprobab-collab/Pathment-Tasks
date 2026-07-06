@@ -1,8 +1,19 @@
-const server = require("http");
+const {createServer} =  require("http");
 const app = require("./app");
+const connectDB = require("./db")
 
-const actualServer = server.createServer(app);
+connectDB().then(()=>{
+    
+const server = createServer(app);
 
-actualServer.listen(3000, ()=>{
-    console.log("server started");
+const PORT = 3001;
+server.listen(PORT, ()=>{
+    console.log(`Server started on PORT: ${PORT}`)
 })
+}).catch(()=>{
+    console.log("Server connection err")
+})
+
+
+
+
