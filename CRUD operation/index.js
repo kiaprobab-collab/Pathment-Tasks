@@ -6,7 +6,7 @@ connectDB().then(()=>{
     
 const server = createServer(app);
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 server.listen(PORT, ()=>{
     console.log(`Server started on PORT: ${PORT}`)
 })
