@@ -104,14 +104,42 @@ app.delete("/delete/:id", async(req, res) => {
 })
 
 
-app.patch("/goals/:id", async(req, res)=>{
+app.patch("/goals/increase/:id", async(req, res)=>{
    try {
     const {id} = req.params;
-    const {amount} = req.body;
 
 
     const updateScore = await FootBall.findOneAndUpdate({_id:id},
-        {$inc: {goals: amount}},
+        {$inc: {goals: 1 }},
+        { returnDocument: "after" }
+    )
+
+    if(!updateScore){
+        return res.status(404).json({
+            message: "Team not found"
+        })
+    }
+
+    return res.status(200).json({
+        updateScore,
+        message: "Score updated Successfully"
+    })
+
+   } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            message: "Internal server error"
+        })
+   } 
+})
+
+app.patch("/goals/decrease/:id", async(req, res)=>{
+   try {
+    const {id} = req.params;
+
+
+    const updateScore = await FootBall.findOneAndUpdate({_id:id},
+        {$inc: {goals: -1 }},
         { returnDocument: "after" }
     )
 
