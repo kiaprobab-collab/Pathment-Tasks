@@ -136,10 +136,8 @@ app.patch("/goals/increase/:id", async(req, res)=>{
 app.patch("/goals/decrease/:id", async(req, res)=>{
    try {
     const {id} = req.params;
-
-
-    const updateScore = await FootBall.findOneAndUpdate({_id:id},
-        {$inc: {goals: -1 }},
+    const updateScore = await FootBall.findOneAndUpdate({_id:id,  goals: { $gt: 0 }},
+        {$inc: { goals: -1 }},
         { returnDocument: "after" }
     )
 
