@@ -6,12 +6,15 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
+// Sign jwt token with user id as payload, provide secret key and set expire date
 function generateToken(id){
     return jwt.sign({id}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
 }
 
+// Register user
 export const registerhandler = async(req, res, next) => {
     try {
+        // Validate user input
         const { username, email, password } = registerSchema.parse(req.body);
         // console.log(result)
         // if(!result.success){
@@ -19,6 +22,7 @@ export const registerhandler = async(req, res, next) => {
         //         message: result.error 
         //     })
         // }
+        // Check if user already exist
         const userExist = await User.findOne({email});
         if(userExist){
             return res.status(409).json({
@@ -26,9 +30,11 @@ export const registerhandler = async(req, res, next) => {
             })
         }
 
+        // Hash password
         const salt = await bcrypt.genSalt(10)
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        // Create user
         const user = await User.create({
             username,
             email,
@@ -38,6 +44,7 @@ export const registerhandler = async(req, res, next) => {
 
         const token = generateToken(user._id);
 
+        // Set JWT cookie to httpOnly true, so that it cannot be accessed by client side javascript
         res.cookie("token", token ,{
             httpOnly: true,
             maxAge: 7 * 24 * 60 * 60 * 1000 
@@ -56,10 +63,11 @@ export const registerhandler = async(req, res, next) => {
     }
 }
 
+// Login user
 export const loginHandler = async(req, res, next) => {
     try {
         const { email, password } = loginSchema.parse(req.body);
-
+        // Find user
         const user = await User.findOne({email});
 
         if(!user){
@@ -67,7 +75,7 @@ export const loginHandler = async(req, res, next) => {
                 message: "User not found"
             })
         }
-
+        // Compare password
         const isPasswordValid = await bcrypt.compare(password, user.password);
 
         if(!isPasswordValid){
@@ -99,6 +107,7 @@ export const loginHandler = async(req, res, next) => {
 
 export const logoutHandler = async(req, res, next) => {
     try {
+        // Clear cookie
         res.clearCookie("token", {
             httpOnly: true
         })
