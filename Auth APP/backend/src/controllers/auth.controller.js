@@ -6,6 +6,8 @@ import dotenv from "dotenv"
 
 dotenv.config()
 
+const isProduction = process.env.NODE_ENV === "production"
+
 // Sign jwt token with user id as payload, provide secret key and set expire date
 function generateToken(id){
     return jwt.sign({id}, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN })
@@ -47,7 +49,9 @@ export const registerhandler = async(req, res, next) => {
         // Set JWT cookie to httpOnly true, so that it cannot be accessed by client side javascript
         res.cookie("token", token ,{
             httpOnly: true,
-            maxAge: 7 * 24 * 60 * 60 * 1000 
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
         })
 
         return res.status(201).json({
@@ -87,7 +91,9 @@ export const loginHandler = async(req, res, next) => {
         const token = generateToken(user._id);
         res.cookie("token", token, {
             httpOnly: true,
-            maxAge: 7 * 24 * 60 * 60 * 1000, 
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
         })
 
 
@@ -109,7 +115,9 @@ export const logoutHandler = async(req, res, next) => {
     try {
         // Clear cookie
         res.clearCookie("token", {
-            httpOnly: true
+            httpOnly: true,
+            secure: isProduction,
+            sameSite: isProduction ? "none" : "lax",
         })
         
         return res.status(200).json({
