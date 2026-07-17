@@ -3,11 +3,11 @@ import { User } from "../models/user.model.js";
 
 // Update user
 export const updateUser = async (req, res, next) => {
-    // Only allow user to update their own account
+    //  allow user to update their own account
     if (req.userId !== req.params.id) {
         return res.status(403).json({
             message: "You can only update your own account",
-        });
+        });                 
     }
 
     try {
@@ -28,7 +28,7 @@ export const updateUser = async (req, res, next) => {
             { new: true }
         );
 
-        // Don't send password in response
+        
         const { password, ...rest } = updatedUser._doc;
 
         return res.status(200).json({
